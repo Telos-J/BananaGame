@@ -62,10 +62,12 @@ Game.Player.prototype = {
   constructor: Game.Player,
 
   jump: function () {
-    this.jumping = true;
-    this.velocity_y -= 20;
+    if (!this.jumping) {
+      this.jumping = true;
+      this.velocity_y -= 20;
+    }
   },
-
+  
   moveLeft: function () {
     this.velocity_x -= 0.5;
   },
