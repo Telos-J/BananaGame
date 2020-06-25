@@ -1,4 +1,26 @@
 window.addEventListener('load', function (event) {
+  const AssetsManager = function () {
+    this.set_image = undefined;
+  };
+
+  AssetsManager.prototype = {
+    constructor: Game.AssetsManager,
+
+    loadTileSetImage: function (url, callback) {
+      this.set_image = new Image();
+
+      this.set_image.addEventListener(
+        'load',
+        function (event) {
+          callback();
+        },
+        { once: true }
+      );
+
+      this.set_image.src = url;
+    },
+  };
+
   var keyDownUp = function (event) {
     controller.keyDownUp(event.type, event.keyCode);
   };
@@ -19,7 +41,7 @@ window.addEventListener('load', function (event) {
       game.world.player.y,
       game.world.player.width,
       game.world.player.height,
-      game.world.player.color
+      assets_manager.set_image
     );
     display.render();
   };
@@ -38,6 +60,7 @@ window.addEventListener('load', function (event) {
     game.update();
   };
 
+  var assets_manager = new AssetsManager();
   var controller = new Controller();
   var display = new Display(document.querySelector('canvas'));
   var game = new Game();
@@ -45,6 +68,11 @@ window.addEventListener('load', function (event) {
 
   display.buffer.canvas.height = game.world.height;
   display.buffer.canvas.width = game.world.width;
+
+  assets_manager.loadTileSetImage('images/banana_hero1.png', () => {
+    resize();
+    engine.start();
+  });
 
   window.addEventListener('keydown', keyDownUp);
   window.addEventListener('keyup', keyDownUp);

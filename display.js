@@ -2,9 +2,8 @@ const Display = function (canvas) {
   this.buffer = document.createElement('canvas').getContext('2d');
   this.context = canvas.getContext('2d');
 
-  this.drawPlayer = function (x, y, width, height, color) {
-    this.buffer.fillStyle = color;
-    this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
+  this.drawPlayer = function (x, y, width, height, image) {
+    this.buffer.drawImage(image, x, y, width, height);
   };
 
   this.fill = function (color) {
